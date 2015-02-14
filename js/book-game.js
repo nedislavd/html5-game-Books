@@ -11,3 +11,81 @@
 // __лик_я_ _e_сб_,
 // Франсис Скот Фицджералд
 // Отговор: Великият Гетсби
+
+(function(win) {
+
+    /***
+     * Singleton Instance
+     * Generates the Book Game
+     */
+    win.mySingleton = (function() {
+
+        // Instance stores a reference to the Singleton
+        var instance;
+
+        function init() {
+
+            /***
+             * Private methods and variables
+             * like bookData
+             */
+
+            function generateTitle() {
+                // randomize title here.
+            }
+
+            function getTitleAndAuthor() {
+            }
+
+            // INIT function
+            function start (opts) {
+            }
+
+            // Fire up the game
+            var PublicAPI = {
+                start: start
+            };
+
+            // Public methods and variables
+            return PublicAPI;
+        }
+
+        // Create a new Singleton instance
+        return {
+            getInstance: function(opts) {
+                if(!instance) {
+                    instance = init(opts);
+                }
+
+                return instance;
+            }
+        };
+
+    })();
+
+    //Document Ready
+    $(function() {
+        // Usage:
+        // var bookGame = mySingleton.getInstance();
+        app.start(bookData);
+    });
+
+})(window);
+
+var bookData = [{
+        "book-title" : "Lolita",
+        "author" : "Vladimir Nabokov",
+    }, {
+        "Book Title" : "Brave New World",
+        "author" : "Aldous Huxley",
+    }, {
+        "Book Title" : "Catch 22",
+        "author" : "Joseph Heller",
+    }, {
+        "Book Title" : "The Lord of the Rings",
+        "author" : "J.R.R. Tolkien",
+    }, {
+        "Book Title" : "Slaughterhouse Five",
+        "author" : "Kurt Vonnegut",
+    }
+];

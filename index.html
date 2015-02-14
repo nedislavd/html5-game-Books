@@ -5,7 +5,20 @@
     <title>Book Game</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body>
+<body style="margin: 0 auto; color: #fff; background: #000;">
+    <div class="game-wrapper" style="margin: 0 auto; width: 75%;">
+        <h1>Guess the title of the book</h1>
+        <div id="js-broken-title"></div>
+        <div id="js-author"></div>
+
+        <form action="">
+            <input type="text" id="js-title-entry">
+            <button id="js-submit-title">Submit Title</button>
+        </form>
+
+        <span id="js-timer"></span>
+        <span id="js-retry" style="display: none;">Try Again</span>
+    </div>
     <script src="js/book-game.js"></script>
 </body>
 </html>

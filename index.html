@@ -8,17 +8,119 @@
 <body style="margin: 0 auto; color: #fff; background: #000;">
     <div class="game-wrapper" style="margin: 0 auto; width: 75%;">
         <h1>Guess the title of the book</h1>
-        <div id="js-broken-title"></div>
-        <div id="js-author"></div>
+		
+		<p>Задача 13. Игра: Книги</p>
+		<p>Напишете игра, която показва заглавие на световноизвестен книга,
+			но във всяка дума да има до 50% липсваши букви на случаен принцип всеки път.
+			Ако думата е от две букви, то скритата буква трябва да е първата.
+			Допълнително трябва да бъде изписано името на автора.</p>
 
-        <form action="">
-            <input type="text" id="js-title-entry">
-            <button id="js-submit-title">Submit Title</button>
-        </form>
+		<p>За да спечели играчът трябва да познае заглавието на книгата с не повече от 3 опита в рамките на минута.</p>
 
-        <span id="js-timer"></span>
-        <span id="js-retry" style="display: none;">Try Again</span>
+		<p>Например:<br />
+
+		__лик_я_ _e_сб_,<br />
+		Франсис Скот Фицджералд<br />
+		Отговор: Великият Гетсби<br />
+		</p>
+
+		<hr />
+		
+        <div id="jsBrokenTitle"></div>
+        <div id="jsAuthor"></div>
+
+            <input type="text" id="jsTitleEntry">
+            <button id="js-submit-title" onClick="checkTitle()">Submit Title</button>
+            <button id="btnSubmitNext" onClick="nextBook()">Next Title</button>
+
+        <span id="jsTimer"    style="display: none;"></span>
+		<span id="jsTimerEnd" style="display: none;">Time expired</span>
+        <span id="jsTryAgain" style="display: none;">Try Again</span>
+		<span id="jsSuccess"  style="display: none;">SUCCESS</span>
+		<span id="jsFailed"   style="display: none;">FAILED</span>
     </div>
-    <script src="js/book-game.js"></script>
+    <script src="js/book-game-2.js"></script>
+	<script>
+		var	TIME_TO_GUESS	= 10;	//	seconds
+		
+		var	game	= new BookGame();
+		var	book	= null;
+
+		//	Start the game by selecting the first Book
+		nextBook();
+		
+		/////////////////////////////////////////////////////////////////////////
+
+		function	nextBook()
+		{
+			//	Hide all controls
+			jsTimer.style.display		= "none";	//	Hide the counter
+			jsTimerEnd.style.display	= "none";
+			jsTryAgain.style.display	= "none";
+			jsSuccess.style.display		= "none";
+			jsFailed.style.display		= "none";	//	Hide the message
+
+			//	Select a book and show it
+			book	= game.selectBook();
+			jsBrokenTitle.innerHTML	= book.getCryptedTitle();
+			jsAuthor.innerHTML		= book.Author();
+			
+			startCounter();
+
+			jsTitleEntry.focus();
+		}
+		/////////////////////////////////////////////////////////////////////////
+		
+		var	titleGuess	= 3;
+		function	checkTitle()
+		{
+			jsSuccess.style.display		= "none";
+			jsTryAgain.style.display	= "none";
+			
+			if( book.checkTitle( jsTitleEntry.value ) )
+			{
+				jsSuccess.style.display	= "block";
+			}
+			else
+			{
+				jsTryAgain.style.display	= "block";
+				titleGuess--;
+				if( titleGuess <= 0 )
+				{
+					jsFailed.style.display	= "block";	//	Show the message
+					jsTimer.style.display	= "none";	//	Hide the counter
+				}
+			}
+		}
+		/////////////////////////////////////////////////////////////////////////
+		
+		var	seconds		= TIME_TO_GUESS;
+		var	timerVar	= window.setInterval( secondElapsed, 1000 );
+		function	startCounter()
+		{
+			seconds		= TIME_TO_GUESS;
+			jsTimer.innerHTML	= seconds;
+
+			jsTimer.style.display		= "block";	//	Show the counter
+			jsTimerEnd.style.display	= "none";	//	Hide the "Time end" message
+		}
+		/////////////////////////////////////////////////////////////////////////
+		
+		function	secondElapsed()
+		{
+			if( seconds > 0 )
+			{
+				seconds--;
+				jsTimer.innerHTML	= seconds;
+			}
+			
+			if( seconds <= 0 )
+			{
+				jsTimer.style.display		= "none";
+				jsTimerEnd.style.display	= "block";
+			}
+		}
+		/////////////////////////////////////////////////////////////////////////
+	</script>
 </body>
 </html>
